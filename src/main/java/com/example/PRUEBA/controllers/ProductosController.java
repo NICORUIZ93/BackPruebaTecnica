@@ -39,7 +39,7 @@ public class ProductosController {
 
     @PutMapping("/updateProducto/{id}")
     public ResponseEntity<ProductosEntity> updateProducto(@PathVariable("id") Long id,
-                                                          @RequestBody productoModel model) {
+            @RequestBody productoModel model) {
 
         ProductosEntity producto = productosRepository.findAllById(id);
         if (producto != null) {
@@ -63,7 +63,7 @@ public class ProductosController {
     public ResponseEntity<ProductosEntity> deleteProducto(@PathVariable("id") Long id) {
         if (productosRepository.findAllById(id) != null) {
             productosRepository.deleteAllById(id);
-            return new ResponseEntity<ProductosEntity>(producto, HttpStatus.ACCEPTED);
+            return new ResponseEntity<ProductosEntity>(productosRepository.findAllById(id), HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<ProductosEntity>(HttpStatus.NOT_FOUND);
         }
