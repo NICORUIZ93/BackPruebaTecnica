@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class productoModel {
-    Long id;
-    String nombre;
-    String descripcion;
-    double precio;
-    String imagen;
+    private Long id;
+    private String descripcion;
+    private String imagen;
+    private String nombre;
+    private Double precio;
 }
