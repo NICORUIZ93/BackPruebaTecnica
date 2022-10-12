@@ -61,10 +61,8 @@ public class ProductosController {
 
     @DeleteMapping("/deleteProducto/{id}")
     public ResponseEntity<ProductosEntity> deleteProducto(@PathVariable("id") Long id) {
-
-        ProductosEntity producto = productosRepository.findAllById(id);
-        if (producto != null) {
-            productosRepository.deleteAllById(producto.getId());
+        if (productosRepository.findAllById(id) != null) {
+            productosRepository.deleteAllById(id);
             return new ResponseEntity<ProductosEntity>(producto, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<ProductosEntity>(HttpStatus.NOT_FOUND);
