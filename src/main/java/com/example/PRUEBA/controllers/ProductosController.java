@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//Swagger http://localhost:8080/swagger-ui/index.html List<ProductosEntity> 
+//Swagger http://localhost:8080/swagger-ui/index.html 
 
 @RestController
 @RequestMapping("/productos")
