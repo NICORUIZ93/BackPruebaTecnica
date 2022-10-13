@@ -19,7 +19,7 @@ public class ProductosEntity {
     private String descripcion;
 
     @Column(name = "imagen")
-    private String imagen;
+    private byte[] imagen;
 
     @Column(name = "nombre")
     private String nombre;
