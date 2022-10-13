@@ -19,3 +19,10 @@ Repositorio Front
 https://github.com/NICORUIZ93/FrontPruebaTecnica.git
 
 npm install
+
+---------------------------------------------------
+
+Docker
+
+docker push nicolasruiz9311/mysql:tagname
+
