@@ -1,10 +1,9 @@
 package com.example.PRUEBA.controllers;
 
 import com.example.PRUEBA.entities.ProductosEntity;
-import com.example.PRUEBA.models.productoModel;
-import com.example.PRUEBA.repositories.ProductosRepository;
+import com.example.PRUEBA.models.ProductoModel;
+import com.example.PRUEBA.repositories.repositoryImpl.ProductosRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,56 +16,33 @@ import java.util.List;
 public class ProductosController {
 
     @Autowired
-    private ProductosRepository productosRepository;
+    private ProductosRepositoryImpl productosRepository;
 
     @GetMapping("/getProductos")
-    public ResponseEntity<List<ProductosEntity>> getProductos() {
+    public ResponseEntity<List<ProductoModel>> getProductos() {
 
-        return new ResponseEntity<>(productosRepository.findAll(), HttpStatus.OK);
+        return productosRepository.productosFindAll();
     }
 
     @PostMapping("/newProducto")
-    public ResponseEntity<ProductosEntity> newProducto(@RequestBody ProductosEntity producto) {
+    public ResponseEntity<ProductosEntity> newProducto(@RequestBody ProductoModel model) {
 
-        try {
-            productosRepository.save(producto);
-        } catch (Exception e) {
-            return new ResponseEntity<ProductosEntity>(HttpStatus.NOT_FOUND);
-        }
+        return productosRepository.IngresarProducto(model);
 
-        return new ResponseEntity<ProductosEntity>(producto, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateProducto/{id}")
     public ResponseEntity<ProductosEntity> updateProducto(@PathVariable("id") Long id,
-            @RequestBody productoModel model) {
+                                                          @RequestBody ProductoModel model) {
 
-        ProductosEntity producto = productosRepository.findAllById(id);
-        if (producto != null) {
-            ProductosEntity productosEntity = new ProductosEntity();
-
-            productosEntity.setId(id);
-            productosEntity.setNombre(model.getNombre());
-            productosEntity.setDescripcion(model.getDescripcion());
-            productosEntity.setImagen(model.getImagen());
-            productosEntity.setPrecio(model.getPrecio());
-            productosRepository.save(productosEntity);
-
-            return new ResponseEntity<ProductosEntity>(productosEntity, HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<ProductosEntity>(HttpStatus.NOT_FOUND);
-        }
+        return productosRepository.actualizar(id, model);
 
     }
 
     @DeleteMapping("/deleteProducto/{id}")
     public ResponseEntity<ProductosEntity> deleteProducto(@PathVariable("id") Long id) {
-        if (productosRepository.findAllById(id) != null) {
-            productosRepository.deleteAllById(id);
-            return new ResponseEntity<ProductosEntity>(productosRepository.findAllById(id), HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<ProductosEntity>(HttpStatus.NOT_FOUND);
-        }
+
+        return productosRepository.eliminarProducto(id);
 
     }
 

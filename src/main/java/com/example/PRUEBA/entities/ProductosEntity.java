@@ -2,16 +2,17 @@ package com.example.PRUEBA.entities;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "productos")
-public class ProductosEntity {
+public class ProductosEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 

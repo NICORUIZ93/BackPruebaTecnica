@@ -1,11 +1,10 @@
 package com.example.PRUEBA.repositories.repositoryCustom;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-
 import com.example.PRUEBA.entities.ProductosEntity;
 import com.example.PRUEBA.models.ProductoModel;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface ProductosRepositoryCustom {
 
@@ -15,6 +14,6 @@ public interface ProductosRepositoryCustom {
 
     public ResponseEntity<ProductosEntity> eliminarProducto(Long id);
 
-    public ResponseEntity<List<ProductosEntity>> productosFindAll();
+    public ResponseEntity<List<ProductoModel>> productosFindAll();
 
 }

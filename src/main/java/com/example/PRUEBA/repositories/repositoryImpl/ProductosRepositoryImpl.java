@@ -1,20 +1,16 @@
 package com.example.PRUEBA.repositories.repositoryImpl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import com.example.PRUEBA.entities.ProductosEntity;
 import com.example.PRUEBA.models.ProductoModel;
 import com.example.PRUEBA.repositories.ProductosRepository;
 import com.example.PRUEBA.repositories.repositoryCustom.ProductosRepositoryCustom;
 import com.example.PRUEBA.services.ConvertImage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProductosRepositoryImpl implements ProductosRepositoryCustom {
@@ -36,7 +32,7 @@ public class ProductosRepositoryImpl implements ProductosRepositoryCustom {
             productosEntity.setId(id);
             productosEntity.setNombre(model.getNombre());
             productosEntity.setDescripcion(model.getDescripcion());
-            productosEntity.setImagen(imageConvert.conversionBase64(model.getImagen()));
+            productosEntity.setImagen(imageConvert.conversionToByte(model.getImagen()));
             productosEntity.setPrecio(model.getPrecio());
             productosRepository.save(productosEntity);
 
@@ -54,7 +50,7 @@ public class ProductosRepositoryImpl implements ProductosRepositoryCustom {
 
         productosEntity.setNombre(model.getNombre());
         productosEntity.setDescripcion(model.getDescripcion());
-        productosEntity.setImagen(imageConvert.conversionBase64(model.getImagen()));
+        productosEntity.setImagen(imageConvert.conversionToByte(model.getImagen()));
         productosEntity.setPrecio(model.getPrecio());
 
         productosRepository.save(productosEntity);
@@ -74,19 +70,21 @@ public class ProductosRepositoryImpl implements ProductosRepositoryCustom {
     }
 
     @Override
-    public ResponseEntity<List<ProductosEntity>> productosFindAll() {
+    public ResponseEntity<List<ProductoModel>> productosFindAll() {
         List<ProductosEntity> productos = productosRepository.findAll();
+        List<ProductoModel> productosFinal = new ArrayList<ProductoModel>();
+        ProductoModel model = new ProductoModel();
 
-        for (ProductosEntity productosEntity2 : productos) {
-
-            productosEntity2.setImagen(Arrays.toString(productosEntity2.getImagen()));
-            productos.add(productosEntity2);
-
+        for (ProductosEntity productosEntity : productos) {
+            model.setId(productosEntity.getId());
+            model.setNombre(productosEntity.getNombre());
+            model.setDescripcion(productosEntity.getDescripcion());
+            model.setPrecio(productosEntity.getPrecio());
+            model.setImagen(imageConvert.conversionToString(productosEntity.getImagen()));
+            productosFinal.add(model);
         }
 
-        List<ProductosEntity> productosEntityFinal = productos;
-
-        return new ResponseEntity<>(productosEntityFinal, HttpStatus.CREATED);
+        return new ResponseEntity<>(productosFinal, HttpStatus.CREATED);
     }
 
 }
